@@ -1,0 +1,90 @@
+{
+  "trained_at": "2026-10-26T05:51:45+00:00",
+  "selected_model": "Random Forest",
+  "selection_rule": "lowest mean RMSE across 5-fold grouped cross-validation on the training set",
+  "cv_metrics": {
+    "Linear Regression": {
+      "mae": {
+        "mean": 80139.57456648687,
+        "std": 2093.2156438173533
+      },
+      "rmse": {
+        "mean": 200987.7672852246,
+        "std": 39328.83185440097
+      },
+      "r2": {
+        "mean": 0.6846891436128287,
+        "std": 0.13574803160771182
+      },
+      "mdape": {
+        "mean": 10.568233669165314,
+        "std": 0.16251295593316878
+      }
+    },
+    "Random Forest": {
+      "mae": {
+        "mean": 90373.3147211364,
+        "std": 1758.3285620575302
+      },
+      "rmse": {
+        "mean": 169620.16473487887,
+        "std": 10083.539376103454
+      },
+      "r2": {
+        "mean": 0.7841312509761111,
+        "std": 0.015642918502313675
+      },
+      "mdape": {
+        "mean": 11.619619969354517,
+        "std": 0.25912942156981483
+      }
+    }
+  },
+  "test_metrics": {
+    "Linear Regression": {
+      "mae": 78084.96024824478,
+      "rmse": 144287.80884729797,
+      "r2": 0.8499641164036549,
+      "mdape": 10.121663630722479
+    },
+    "Random Forest": {
+      "mae": 90658.99463105224,
+      "rmse": 161936.14965924708,
+      "r2": 0.8110166768521138,
+      "mdape": 11.279621017475963
+    }
+  },
+  "dataset": {
+    "rows_raw": 21613,
+    "duplicate_rows_removed": 3,
+    "missing_or_nonpositive_price_removed": 0,
+    "nonpositive_living_area_removed": 0,
+    "implausible_bedrooms_removed": 1,
+    "rows_clean": 21609,
+    "missing_values_in_features": 0,
+    "train_rows": 17288,
+    "test_rows": 4321,
+    "median_price": 450000.0,
+    "min_price": 75000.0,
+    "max_price": 7700000.0
+  },
+  "feature_importance": {
+    "grade": 0.5123501050754614,
+    "sqft_living": 0.32481213577991896,
+    "yr_built": 0.14763598629483216,
+    "zipcode": 0.12846580136819,
+    "bathrooms": 0.03742376046776626,
+    "view": 0.03648602013270028,
+    "sqft_lot": 0.023459084954876454,
+    "waterfront": 0.017975611050482267,
+    "condition": 0.0034390701454338314,
+    "bedrooms": 0.0033126556381037455,
+    "floors": 0.002306817411572748
+  },
+  "environment": {
+    "python": "3.13.14",
+    "scikit_learn": "1.8.0",
+    "numpy": "2.4.4",
+    "random_state": 42
+  }
+}

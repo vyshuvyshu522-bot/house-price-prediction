@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Estimate a house price with machine learning</h1>
+  <p>A scikit-learn model trained on more than 21,000 real house sales in King County, Washington (USA).
+     Enter a property's details to get an estimate, then explore how well the model performs on the
+     <a href="{{ url_for('dashboard') }}">dashboard</a>.</p>
+</section>
+
+{% if model_error %}
+<div class="alert alert-error" role="alert">
+  <strong>The prediction model is not available.</strong> {{ model_error }}
+</div>
+{% endif %}
+
+<div class="layout">
+  <section class="card">
+    <h2>Property details</h2>
+    {% if errors.get('_form') %}<div class="alert alert-error" role="alert">{{ errors['_form'] }}</div>{% endif %}
+    <form id="predict-form" method="post" action="{{ url_for('predict') }}" novalidate>
+      <div class="form-grid">
+        {% for name, spec in specs.items() %}
+        <div class="field">
+          <label for="{{ name }}">{{ spec.label }}</label>
+          {% if name == 'zipcode' %}
+            <select id="zipcode" name="zipcode" required>
+              <option value="">Select ZIP code</option>
+              {% for z in zipcodes %}<option value="{{ z }}" {{ 'selected' if values.get('zipcode') == z }}>{{ z }}</option>{% endfor %}
+            </select>
+          {% elif spec.choices %}
+            <select id="{{ name }}" name="{{ name }}" required>
+              {% for k, label in spec.choices.items() %}<option value="{{ k }}" {{ 'selected' if values.get(name)|string == k|string }}>{{ label }}</option>{% endfor %}
+            </select>
+          {% else %}
+            <input id="{{ name }}" name="{{ name }}" type="number" required
+                   min="{{ spec.min }}" max="{{ spec.max }}" step="{{ spec.step }}"
+                   value="{{ values.get(name, '') }}">
+          {% endif %}
+          {% if spec.help %}<small class="hint">{{ spec.help }}</small>{% endif %}
+          <small class="error" id="error-{{ name }}">{{ errors.get(name, '') }}</small>
+        </div>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn" id="submit-btn" {{ 'disabled' if not model_ready }}>Estimate price</button>
+    </form>
+  </section>
+
+  <aside class="card result-card" id="result-card" aria-live="polite">
+    <h2>Estimated price</h2>
+    <div id="result-body">
+      {% if result %}
+        <p class="price">{{ result.price|money }}</p>
+        <p class="muted">Model: {{ result.model }}</p>
+        {% if typical %}<p class="muted">On held-out test sales this model's typical (median) error was about
+          {{ '%.0f'|format(typical.mdape) }}% of the sale price.</p>{% endif %}
+      {% else %}
+        <p class="muted" id="result-placeholder">Fill in the form and press <em>Estimate price</em>.</p>
+      {% endif %}
+    </div>
+    <p class="disclaimer">This is an estimate, not a valuation. Prices reflect the 2014&ndash;2015 King County market.</p>
+  </aside>
+</div>
+{% endblock %}

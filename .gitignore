@@ -1,0 +1,28 @@
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Runtime data (created when the app runs)
+instance/
+*.db
+*.sqlite3
+
+# Secrets / local config
+.env
+.env.*
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Trained model binary: regenerate with `python train_model.py`
+models/*.joblib

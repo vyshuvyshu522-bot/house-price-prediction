@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | House Price Prediction{% endblock %}
+{% block content %}
+<h1>Results dashboard</h1>
+{% if not metrics %}
+  <div class="alert alert-error">No evaluation results found. Run <code>python train_model.py</code> first.</div>
+{% else %}
+  <p class="muted">Dataset: {{ '{:,}'.format(metrics.dataset.rows_clean) }} cleaned sales
+     ({{ '{:,}'.format(metrics.dataset.train_rows) }} train / {{ '{:,}'.format(metrics.dataset.test_rows) }} test).
+     Selected model: <strong>{{ metrics.selected_model }}</strong> &mdash; {{ metrics.selection_rule }}.</p>
+
+  <section class="card">
+    <h2>Model comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Model</th><th>Split</th><th>MAE</th><th>RMSE</th><th>R&sup2;</th></tr></thead>
+        <tbody>
+        {% for name in metrics.cv_metrics %}
+          {% set cv = metrics.cv_metrics[name] %}{% set t = metrics.test_metrics[name] %}
+          <tr><td rowspan="2"><strong>{{ name }}</strong>{% if name == metrics.selected_model %} <span class="badge">selected</span>{% endif %}</td>
+              <td>CV (validation)</td><td>{{ cv.mae.mean|money }}</td><td>{{ cv.rmse.mean|money }}</td><td>{{ '%.3f'|format(cv.r2.mean) }}</td></tr>
+          <tr><td>Test (held out)</td><td>{{ t.mae|money }}</td><td>{{ t.rmse|money }}</td><td>{{ '%.3f'|format(t.r2) }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">MAE and RMSE are in US dollars; lower is better. R&sup2; closer to 1 is better.
+       The model was chosen using cross-validation on the training data only; the test set was used once for the final report.</p>
+  </section>
+
+  {% if charts_ready %}
+  <section class="chart-grid">
+    <figure class="card"><img src="{{ url_for('static', filename='img/actual_vs_predicted.png') }}" alt="Actual versus predicted prices on the test set"></figure>
+    <figure class="card"><img src="{{ url_for('static', filename='img/price_distribution.png') }}" alt="Distribution of house prices"></figure>
+    <figure class="card"><img src="{{ url_for('static', filename='img/feature_importance.png') }}" alt="Permutation feature importance"></figure>
+  </section>
+  {% else %}
+  <div class="alert alert-error">Charts are missing. Re-run <code>python train_model.py</code> to generate them.</div>
+  {% endif %}
+{% endif %}
+<div class="alert alert-info">Predictions are estimates, not guaranteed property valuations. The model was trained on
+  King County, WA sales from May 2014 to May 2015 and does not know about current market conditions or features
+  such as renovations, interior quality or exact location.</div>
+{% endblock %}
