@@ -59,9 +59,8 @@ Train rows: 17,288, test rows: 4,321, `random_state=42`. All errors are in US do
 | Random Forest     | Test (held out)        | $90,659 | $161,936 | 0.811 |
 
 **Selected model: Random Forest** (lowest mean cross-validation RMSE).
-|
 
-**Selected model: Random Forest** (lowest CV RMSE). Read these numbers carefully:
+Read these numbers carefully:
 
 - The two models are close and the ranking is **not consistent** across metrics. Linear Regression has the lower
   MAE in both CV and test, and the better test RMSE and R². Random Forest won the selection only because of CV RMSE.
