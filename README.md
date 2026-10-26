@@ -50,12 +50,16 @@ and tests handle missing inputs safely.
 
 Train rows: 17,288, test rows: 4,321, `random_state=42`. All errors are in US dollars.
 
-| Model | Split | MAE | RMSE | R² |
-|---|---|---|---|---|
-| Linear Regression | 5-fold CV (validation) | $80,188 | $202,212 | 0.683 |
-| Random Forest | 5-fold CV (validation) | $91,134 | $170,159 | 0.783 |
-| Linear Regression | Test (held out) | $78,085 | $144,288 | 0.850 |
-| Random Forest | Test (held out) | $90,659 | $161,936 | 0.811 |
+
+| Model             | Split                  |     MAE |     RMSE |    R² |
+| ----------------- | ---------------------- | ------: | -------: | ----: |
+| Linear Regression | 5-fold CV (validation) | $80,140 | $200,988 | 0.685 |
+| Random Forest     | 5-fold CV (validation) | $90,373 | $169,620 | 0.784 |
+| Linear Regression | Test (held out)        | $78,085 | $144,288 | 0.850 |
+| Random Forest     | Test (held out)        | $90,659 | $161,936 | 0.811 |
+
+**Selected model: Random Forest** (lowest mean cross-validation RMSE).
+|
 
 **Selected model: Random Forest** (lowest CV RMSE). Read these numbers carefully:
 
